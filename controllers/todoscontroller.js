@@ -1,14 +1,31 @@
 "use strict";
+const { v4: uuidv4 } = require("uuid");
+
+const todos_data = [];
 
 const todos = (req, res) => {
-  res.status(200).json("sdf");
+  res.status(200).json(todos_data);
 };
+
 const getTodos = (req, res) => {
-    res.status(200).json("sdf");
-  };
+    console.log(req.params.id);
+    let result = todos_data.find((obj)=> obj.id === req.params.id);
+    if(result){
+        res.status(200).json(todos_data.find((obj)=> obj.id === req.params.id));       
+    }else{
+        res.status(404).json("data not found!");
+    }
+ 
+};
 const addTodos = (req, res) => {
   console.log(req.body);
-  res.status(200).json("sdf");
+  todos_data.push({
+    id: uuidv4(),
+    title: req.body.title,
+    description: req.body.description,
+    createon: Date.now(),
+  });
+  res.status(200).json(todos_data);
 };
 
 const editTodo = (req, res) => {
@@ -17,11 +34,14 @@ const editTodo = (req, res) => {
 };
 
 const deleteTodo = (req, res) => {
-    console.log(req.body);
-    res.status(200).json("sdf");
-  };
+  console.log(req.body);
+  res.status(200).json("sdf");
+};
 
 module.exports = {
   todos,
-  addTodos,editTodo,deleteTodo,getTodos
+  addTodos,
+  editTodo,
+  deleteTodo,
+  getTodos,
 };
