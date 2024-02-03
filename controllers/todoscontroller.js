@@ -8,14 +8,13 @@ const todos = (req, res) => {
 };
 
 const getTodos = (req, res) => {
-    console.log(req.params.id);
-    let result = todos_data.find((obj)=> obj.id === req.params.id);
-    if(result){
-        res.status(200).json(todos_data.find((obj)=> obj.id === req.params.id));       
-    }else{
-        res.status(404).json("data not found!");
-    }
- 
+  console.log(req.params.id);
+  let result = todos_data.find((obj) => obj.id === req.params.id);
+  if (result) {
+    res.status(200).json(todos_data.find((obj) => obj.id === req.params.id));
+  } else {
+    res.status(404).json("data not found!");
+  }
 };
 const addTodos = (req, res) => {
   console.log(req.body);
@@ -34,8 +33,14 @@ const editTodo = (req, res) => {
 };
 
 const deleteTodo = (req, res) => {
-  console.log(req.body);
-  res.status(200).json("sdf");
+  let result = todos_data.findIndex((obj) => obj.id === req.params.id);
+  console.log("result ",result);
+  if (result > -1) {
+    todos_data.splice(todos_data,1);
+    res.status(200).json(todos_data);
+  } else {
+    res.status(404).json("data not found!");
+  }
 };
 
 module.exports = {
