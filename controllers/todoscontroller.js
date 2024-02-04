@@ -12,19 +12,27 @@ const getTodos = (req, res, next) => {
   if (result) {
     res.status(200).json(todos_data.find((obj) => obj.id === req.params.id));
   } else {
-     res.status(404).json("data not found.")
-   //  next({statusCode:"404",message:"data not found."});
+    res.status(404).json("data not found.");
+    //  next({statusCode:"404",message:"data not found."});
   }
 };
 const addTodos = (req, res) => {
+  let id = uuidv4();
   todos_data.push({
-    id: uuidv4(),
+    id: id,
     title: req.body.title,
     description: req.body.description,
     status: req.body.status,
     createon: Date.now(),
   });
-  res.status(200).json(todos_data);
+
+  let result = todos_data.find((obj) => obj.id === id);
+  if (result) {
+    res.status(201).json("create successfully...");
+  } else {
+    res.status(500).json("create failed...");
+    //  next({statusCode:"404",message:"data not found."});
+  }
 };
 
 const editTodo = (req, res) => {
